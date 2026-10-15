@@ -15,6 +15,8 @@ struct BreakRecord: Codable, Identifiable {
 
 @MainActor @Observable
 final class ReminderStore {
+    // Intents and the visible scene share one owner, including during background launches.
+    static let shared = ReminderStore()
     var minutes: Int { didSet { UserDefaults.standard.set(minutes, forKey: "minutes") } }
     var sound: Bool { didSet { UserDefaults.standard.set(sound, forKey: "sound") } }
     var showIsland: Bool { didSet { UserDefaults.standard.set(showIsland, forKey: "showIsland") } }
@@ -63,13 +65,13 @@ final class ReminderStore {
         await handleNotificationRoute()
         checkTime()
     }
-    func start(seconds override: TimeInterval? = nil) async {
+    func start(seconds override: TimeInterval? = nil, requestPermission: Bool = true) async {
         guard !isWorking else { return }
         isWorking = true
         defer { isWorking = false }
         error = nil
         do {
-            if await center.notificationSettings().authorizationStatus == .notDetermined {
+            if requestPermission, await center.notificationSettings().authorizationStatus == .notDetermined {
                 _ = try await center.requestAuthorization(options: [.alert, .sound])
             }
             let settings = await center.notificationSettings()
@@ -103,6 +105,25 @@ final class ReminderStore {
         } catch {
             self.error = L("알림을 예약하지 못했습니다. 다시 시도해 주세요. ", "Could not schedule your reminder. Please try again. ") + error.localizedDescription
         }
+    }
+    func startFromAutomation(restart: Bool = false) async throws {
+        guard !isWorking else { throw AutomationFailure.busy }
+        let settings = await center.notificationSettings()
+        guard [.authorized, .provisional, .ephemeral].contains(settings.authorizationStatus) else {
+            throw AutomationFailure.permission
+        }
+        if let end = breakDeadline, end <= Date(), !breakFinished { finishBreak() }
+        guard breakDeadline == nil || breakFinished else { throw AutomationFailure.resting }
+        // Opening another selected app must not keep pushing an active reminder into the future.
+        if !restart, let deadline, deadline > Date() {
+            let requests = await center.pendingNotificationRequests()
+            if requests.contains(where: { $0.identifier == Self.notificationID }) { return }
+        }
+        // Scheduling can fail; retain the old timer until its replacement is successfully added.
+        guard !isWorking else { throw AutomationFailure.busy }
+        await start(requestPermission: false)
+        if let error { throw AutomationFailure.scheduling(error) }
+        clearBreak()
     }
     func stop() async {
         center.removePendingNotificationRequests(withIdentifiers: [Self.notificationID])

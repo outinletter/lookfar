@@ -23,3 +23,11 @@ The Release app and WidgetKit extension compiled and archived for arm64. The fin
 - Actual Lock Screen / Dynamic Island appearance, sound, Focus and permission-denied combinations still need user-visible checks under the desired phone settings. The extension runs on the iPhone, but that alone does not establish every presentation mode.
 - Physical-device verification on this beta OS does not replace testing on the production iOS versions intended for release.
 - Host the supplied privacy/support pages, complete App Store Connect metadata, and validate distribution signing. No upload or submission has been performed.
+
+## Build 2 — Shortcuts automation
+
+2026-10-15, same physical iPhone. Result `/private/tmp/LookFar-Automation-02.xcresult`: six tests passed, zero failures, zero skipped. Five hosted tests execute the real App Intent perform methods: saved interval/start and duplicate preservation; explicit restart with one pending request; cancellation and persistence; refusal during a guided rest; repair of a missing pending notification. One UI test opens the automation guide and verifies its limitations. The first run's five action tests passed; its UI test failed because the navigation row was queried as a Button. The second run uses a type-independent row query and bounded scrolling and passed. Captures were visually checked locally in `/private/tmp/LookFarAutomationProof` and are not committed.
+
+The app includes extracted App Intents metadata and Korean/English shortcut strings. App Intents use the same main-actor timer owner as the UI and LiveActivityIntent to allow optional activity creation without opening LookFar. These tests call perform directly; they do not establish an end-to-end user-created App Open automation. The user must select their apps and create that personal automation in Shortcuts. Verify an actual selected-app launch and background activity presentation on the user's device after setup. No automatic screen wake/lock reset or usage/gaze measurement is claimed.
+
+Build 2 Release archive: `build/LookFar-1.0-build2.xcarchive`. Archive succeeded, deep/strict signature verification passed, and the app was installed on the physical iPhone at 18:23 KST. The prior build 1 archive remains untouched. No distribution upload or submission occurred.

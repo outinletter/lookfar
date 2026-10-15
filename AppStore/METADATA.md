@@ -3,7 +3,7 @@
 - Name: LookFar
 - Bundle ID (explicit): com.addvalue.lookfar
 - SKU suggestion: lookfar-ios
-- Version: 1.0, build 1
+- Version: 1.0, build 2
 - Primary language: Korean
 - Category: Health & Fitness; secondary: Utilities
 - Copyright: 2026 ADDVALUE
@@ -25,12 +25,13 @@ LookFar는 화면에 집중한 일상에 작은 눈 휴식을 더하는 앱입�
 
 • 나에게 맞는 간격: 10·20·30·45분 빠른 선택과 1~180분 직접 설정
 • 다른 앱을 사용 중에도: 기기에 예약된 알림과 선택 가능한 알림 소리
+• 선택한 앱을 열 때 자동 시작: Apple 단축어에서 사용자가 자동화를 설정
 • 한눈에 보는 남은 시간: 지원 기기의 잠금 화면과 Dynamic Island 실시간 현황
 • 20초의 작은 쉼: 먼 곳 보기, 부드러운 깜빡임과 편안한 호흡 안내
 • 차곡차곡 쌓이는 습관: 직접 완료한 휴식 기록과 최근 7일 그래프
 • 나만의 기록: 로그인·광고·추적 없이 기기에 보관, 언제든 초기화
 
-타이머는 시작 버튼을 누른 시점부터 계산하며 실제 스마트폰 사용 시간을 측정하지 않습니다. 알림은 타이머마다 한 번 예약됩니다. Dynamic Island는 지원 기기에서 이용할 수 있고, 표시 여부는 iOS가 결정합니다. 집중 모드·무음 모드·알림 설정에 따라 알림의 표시와 소리가 달라질 수 있습니다.
+타이머는 시작 버튼이나 단축어 동작 실행 시점부터 계산하며 실제 스마트폰 사용 시간을 측정하지 않습니다. 화면을 꺼도 계속 계산하고 화면 켜짐·잠금 해제로 초기화되지 않습니다. 앱 실행 자동화는 사용자가 Apple 단축어에서 설정해야 합니다. 알림은 타이머마다 한 번 예약됩니다. Dynamic Island는 지원 기기에서 이용할 수 있고, 표시 여부는 iOS가 결정합니다. 집중 모드·무음 모드·알림 설정에 따라 알림의 표시와 소리가 달라질 수 있습니다.
 
 LookFar는 일상 속 휴식 습관을 돕는 앱이며 의료 진단이나 치료를 제공하거나 시력 개선을 보장하지 않습니다.
 
@@ -50,12 +51,13 @@ LookFar brings small eye breaks into your day. Set a timer from 1 to 180 minutes
 
 • Your own rhythm: quick presets and custom intervals.
 • A reminder that travels with you: local notifications, even while using another app.
+• Start when selected apps open: set up your own automation in Apple Shortcuts.
 • Time at a glance: optional Lock Screen and Dynamic Island Live Activities on supported devices.
 • A 20-second pause: gentle prompts to look far away, blink slowly, and relax.
 • Small habits, recorded: completed breaks and a seven-day chart.
 • Private by design: no account, ads, tracking, or developer server. Your history stays on your device.
 
-Timers measure elapsed time after you press Start, not actual phone use. Each timer schedules one notification. iOS controls Live Activity presentation. Focus, Silent mode, Scheduled Summary, and notification settings may affect alerts.
+Timers measure elapsed time after Start or a Shortcuts action, not actual phone use. They keep running while locked and do not reset on screen wake or unlock. App Open automations require setup by the user in Apple Shortcuts. Each timer schedules one notification. iOS controls Live Activity presentation. Focus, Silent mode, Scheduled Summary, and notification settings may affect alerts.
 
 LookFar supports everyday break habits. It does not diagnose, treat, or guarantee improved eyesight.
 

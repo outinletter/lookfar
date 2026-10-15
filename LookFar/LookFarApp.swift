@@ -1,10 +1,12 @@
 import SwiftUI
 import UserNotifications
+import AppIntents
 
 @main
 struct LookFarApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @State private var store = ReminderStore()
+    @State private var store = ReminderStore.shared
+    init() { LookFarShortcuts.updateAppShortcutParameters() }
     var body: some Scene {
         WindowGroup {
             RootView(store: store)

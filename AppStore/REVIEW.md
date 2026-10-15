@@ -13,6 +13,9 @@ LookFar is a native, offline eye-break reminder app. No login or special access 
 5. Start my next reminder explicitly starts another one-shot timer.
 6. On a physical device supporting Dynamic Island, with Live Activities enabled, starting a timer also starts a real countdown. Expiry uses the local notification. The app does not force Dynamic Island expansion or rely on background execution for alerts.
 7. Settings contains the complete privacy policy, developer contact and Reset all data. Reset cancels pending notifications, ends the activity, and deletes local history and preferences.
+8. Settings → Start when apps open explains user-created Shortcuts App Open automations. In Shortcuts search LookFar to find Start eye-break timer, Restart eye-break timer and End eye-break timer. These run without bringing LookFar to the foreground. Start preserves an active scheduled timer; Restart uses the full saved duration. All starts require notification permission and do not interrupt an active guided break.
+
+No automatic screen-on/lock detection is claimed. Timers continue while locked. The user creates and removes personal automations in Shortcuts; Reset all data does not remove them. No Screen Time entitlement is used.
 
 The app measures elapsed time from Start and does not monitor Screen Time or eye movements. It makes no diagnosis, treatment or eyesight-improvement claims. There is no network service, tracking, advertising, payment, or third-party SDK. All four icon concepts were generated specifically for this app; the owner selected the LF monogram.
 

@@ -1,0 +1,3 @@
+"${applicationName} 타이머 시작" = "Start a timer in ${applicationName}";
+"${applicationName} 타이머 새로 시작" = "Restart a timer in ${applicationName}";
+"${applicationName} 타이머 종료" = "End the timer in ${applicationName}";

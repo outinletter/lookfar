@@ -20,7 +20,7 @@ struct SettingsView: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("LookFar").font(.title2.weight(.semibold))
                         Text(L("시선에 작은 쉼표를.", "A little pause for your eyes.")).font(.caption).foregroundStyle(Palette.muted)
-                        Text("1.0 (1)").font(.caption2).foregroundStyle(Palette.muted)
+                        Text("1.0 (2)").font(.caption2).foregroundStyle(Palette.muted)
                     }
                 }.padding(.vertical, 10)
             }.listRowBackground(Palette.card)
@@ -41,10 +41,17 @@ struct SettingsView: View {
             } header: { Text(L("실시간 현황", "LIVE ACTIVITY")) } footer: {
                 Text(L("다음 타이머부터 적용됩니다. 지원 기기에서 남은 시간을 표시합니다. 종료 시 알림은 별도의 배너로 전달됩니다. Dynamic Island 표시와 확장은 iOS가 결정합니다.", "Applies to the next timer. Shows a countdown on supported devices. The end reminder is a separate notification. iOS controls Dynamic Island visibility and expansion."))
             }.listRowBackground(Palette.card)
+            Section {
+                NavigationLink { AutomationGuideView() } label: {
+                    Label(L("앱 실행 시 자동 시작", "Start when apps open"), systemImage: "bolt.fill")
+                }.accessibilityIdentifier("automationGuide")
+            } header: { Text(L("자동 시작", "AUTOMATION")) } footer: {
+                Text(L("단축어에서 선택한 앱을 열 때 타이머를 시작할 수 있습니다. 화면 켜짐·꺼짐 감지 기능은 아닙니다.", "Start a timer when apps selected in Shortcuts open. This does not detect screen wake or lock."))
+            }.listRowBackground(Palette.card)
             Section(L("사용 안내", "HOW IT WORKS")) {
                 Text(L("1. 1~180분 중 원하는 간격을 고르세요.\n2. 알림 시작을 누르고 평소처럼 기기를 사용하세요.\n3. LOOKFAR 알림이 오면 화면에서 눈을 떼어보세요.\n4. 20초 휴식을 완료하고 다음 알림을 시작하세요.", "1. Choose an interval from 1 to 180 minutes.\n2. Start your reminder and use your device normally.\n3. When LOOKFAR arrives, look away from the screen.\n4. Complete a 20-second break and start your next reminder."))
                     .font(.subheadline).lineSpacing(6)
-                Text(L("시간은 시작 버튼을 누른 시점부터 계산합니다. 실제 스마트폰 사용 시간을 측정하지 않으며, 알림은 한 번씩 예약됩니다.", "Time runs from when you press Start. LookFar does not measure actual phone use. Each timer schedules one reminder."))
+                Text(L("시간은 시작 버튼 또는 단축어 동작 실행 시점부터 계산합니다. 화면을 꺼도 계속 계산하며, 실제 스마트폰 사용 시간을 측정하지 않습니다. 알림은 한 번씩 예약됩니다.", "Time runs from Start or a Shortcuts action, including while the screen is off. LookFar does not measure actual phone use. Each timer schedules one reminder."))
                     .font(.caption).foregroundStyle(Palette.muted)
             }.listRowBackground(Palette.card)
             Section {

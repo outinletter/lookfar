@@ -1,0 +1,9 @@
+"눈 휴식 타이머 시작" = "Start eye-break timer";
+"눈 휴식 타이머 새로 시작" = "Restart eye-break timer";
+"눈 휴식 타이머 종료" = "End eye-break timer";
+"설정한 간격으로 시작합니다. 진행 중인 타이머는 유지합니다." = "Starts with your saved interval. Keeps an active timer running.";
+"기존 타이머를 설정한 시간 전체로 초기화합니다." = "Resets the timer to the full saved duration.";
+"예정 알림과 실시간 현황을 취소합니다." = "Cancels the scheduled reminder and Live Activity.";
+"타이머 시작" = "Start timer";
+"타이머 새로 시작" = "Restart timer";
+"타이머 종료" = "End timer";

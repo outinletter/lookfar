@@ -128,4 +128,25 @@ final class LookFarUITests: XCTestCase {
         app.buttons["closeBreak"].tap()
         XCTAssertTrue(app.buttons["interval20"].waitForExistence(timeout: 4))
     }
+    func test08AutomationGuide() throws {
+        XCUIDevice.shared.orientation = .portrait
+        app.tabBars.buttons["설정"].tap()
+        let guide = app.descendants(matching: .any)["automationGuide"].firstMatch
+        for _ in 0..<4 {
+            if guide.exists && guide.isHittable { break }
+            app.swipeUp()
+        }
+        capture("10-automation-settings-ko")
+        XCTAssertTrue(guide.waitForExistence(timeout: 4), app.debugDescription)
+        guide.tap()
+        XCTAssertTrue(app.navigationBars[L10n.automationTitle].waitForExistence(timeout: 4))
+        capture("11-automation-guide-ko")
+        for _ in 0..<5 {
+            if app.staticTexts["automationLimitations"].exists { break }
+            app.swipeUp()
+        }
+        XCTAssertTrue(app.staticTexts["automationLimitations"].waitForExistence(timeout: 3))
+    }
 }
+
+private enum L10n { static let automationTitle = "앱 실행 시 자동 시작" }

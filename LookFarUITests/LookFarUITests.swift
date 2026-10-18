@@ -128,6 +128,25 @@ final class LookFarUITests: XCTestCase {
         app.buttons["closeBreak"].tap()
         XCTAssertTrue(app.buttons["interval20"].waitForExistence(timeout: 4))
     }
+    func test09WindowLandscape() throws {
+        if app.staticTexts["countdown"].exists {
+            app.buttons["startStop"].tap()
+            app.swipeDown()
+        }
+        XCTAssertTrue(app.images["windowLandscape"].waitForExistence(timeout: 5))
+        capture("12-window-landscape-ko")
+        let start = app.buttons["startStop"]
+        for _ in 0..<3 {
+            if start.isHittable { break }
+            app.swipeUp()
+        }
+        XCTAssertTrue(start.isHittable)
+        start.tap()
+        allowNotifications()
+        XCTAssertTrue(app.staticTexts["countdown"].waitForExistence(timeout: 5))
+        start.tap()
+        XCTAssertFalse(app.staticTexts["countdown"].exists)
+    }
     func test08AutomationGuide() throws {
         XCUIDevice.shared.orientation = .portrait
         app.tabBars.buttons["설정"].tap()

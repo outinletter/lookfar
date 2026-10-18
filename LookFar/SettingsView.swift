@@ -20,7 +20,7 @@ struct SettingsView: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("LookFar").font(.title2.weight(.semibold))
                         Text(L("시선에 작은 쉼표를.", "A little pause for your eyes.")).font(.caption).foregroundStyle(Palette.muted)
-                        Text("1.0 (2)").font(.caption2).foregroundStyle(Palette.muted)
+                        Text("\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0") (\(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "3"))").font(.caption2).foregroundStyle(Palette.muted)
                     }
                 }.padding(.vertical, 10)
             }.listRowBackground(Palette.card)

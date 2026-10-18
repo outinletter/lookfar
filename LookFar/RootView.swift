@@ -119,7 +119,13 @@ struct FocusView: View {
                 Label(store.running ? L("알림 예약됨 · 앱을 닫아도 괜찮아요", "Scheduled · feel free to leave the app") : L("작은 알림 하나로 만드는 좋은 습관", "A gentle nudge toward a better habit"), systemImage: store.running ? "checkmark.circle.fill" : "wind")
                     .font(.caption).foregroundStyle(store.running ? Palette.sage : Palette.muted)
             }.padding(.top, 27).padding(.horizontal, 15)
-            HorizonView().frame(height: 95).padding(.top, 5)
+            Image("WindowLandscape")
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity)
+                .accessibilityLabel(L("창틀 너머로 보이는 먼 산과 호수", "Distant mountains and a lake beyond a window frame"))
+                .accessibilityIdentifier("windowLandscape")
+                .padding(.top, 20)
         }.background(Palette.card).clipShape(RoundedRectangle(cornerRadius: 30))
     }
     private var intervalSelector: some View {

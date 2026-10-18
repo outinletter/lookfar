@@ -28,7 +28,7 @@ def configs(settings):
 
 project = obj("PBXProject")
 common = dict(SWIFT_VERSION="5.0", IPHONEOS_DEPLOYMENT_TARGET="17.0", SDKROOT="iphoneos", CLANG_ENABLE_MODULES="YES", ENABLE_USER_SCRIPT_SANDBOXING="YES", ENABLE_STRICT_OBJC_MSGSEND="YES")
-target_common = dict(PRODUCT_NAME="$(TARGET_NAME)", CODE_SIGN_STYLE="Automatic", DEVELOPMENT_TEAM="A7QB8PT33N", MARKETING_VERSION="1.0", CURRENT_PROJECT_VERSION="2", TARGETED_DEVICE_FAMILY="1", SUPPORTED_PLATFORMS="iphoneos iphonesimulator", SUPPORTS_MACCATALYST="NO", SWIFT_EMIT_LOC_STRINGS="YES")
+target_common = dict(PRODUCT_NAME="$(TARGET_NAME)", CODE_SIGN_STYLE="Automatic", DEVELOPMENT_TEAM="A7QB8PT33N", MARKETING_VERSION="1.0", CURRENT_PROJECT_VERSION="3", TARGETED_DEVICE_FAMILY="1", SUPPORTED_PLATFORMS="iphoneos iphonesimulator", SUPPORTS_MACCATALYST="NO", SWIFT_EMIT_LOC_STRINGS="YES")
 appfiles = ["LookFarApp.swift", "ReminderStore.swift", "Theme.swift", "RootView.swift", "BreakView.swift", "HistoryView.swift", "SettingsView.swift", "AutomationGuideView.swift", "ReminderIntents.swift", "Shared/LookFarActivity.swift"]
 apprefs = [ref("LookFar/" + f, "sourcecode.swift") for f in appfiles]
 privacy = ref("LookFar/PrivacyInfo.xcprivacy", "text.xml")

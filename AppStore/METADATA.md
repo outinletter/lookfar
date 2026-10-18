@@ -3,7 +3,7 @@
 - Name: LookFar
 - Bundle ID (explicit): com.addvalue.lookfar
 - SKU suggestion: lookfar-ios
-- Version: 1.0, build 2
+- Version: 1.0, build 3
 - Primary language: Korean
 - Category: Health & Fitness; secondary: Utilities
 - Copyright: 2026 ADDVALUE

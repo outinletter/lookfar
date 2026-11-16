@@ -29,12 +29,12 @@ def configs(settings):
 project = obj("PBXProject")
 common = dict(SWIFT_VERSION="5.0", IPHONEOS_DEPLOYMENT_TARGET="17.0", SDKROOT="iphoneos", CLANG_ENABLE_MODULES="YES", ENABLE_USER_SCRIPT_SANDBOXING="YES", ENABLE_STRICT_OBJC_MSGSEND="YES")
 target_common = dict(PRODUCT_NAME="$(TARGET_NAME)", CODE_SIGN_STYLE="Automatic", DEVELOPMENT_TEAM="A7QB8PT33N", MARKETING_VERSION="1.0", CURRENT_PROJECT_VERSION="3", TARGETED_DEVICE_FAMILY="1", SUPPORTED_PLATFORMS="iphoneos iphonesimulator", SUPPORTS_MACCATALYST="NO", SWIFT_EMIT_LOC_STRINGS="YES")
-appfiles = ["LookFarApp.swift", "ReminderStore.swift", "Theme.swift", "RootView.swift", "BreakView.swift", "HistoryView.swift", "SettingsView.swift", "AutomationGuideView.swift", "ReminderIntents.swift", "Shared/LookFarActivity.swift"]
+appfiles = ["LookFarApp.swift", "RootView.swift", "Shared/LookFarActivity.swift"]
 apprefs = [ref("LookFar/" + f, "sourcecode.swift") for f in appfiles]
 privacy = ref("LookFar/PrivacyInfo.xcprivacy", "text.xml")
 assets = ref("LookFar/Assets.xcassets", "folder.assetcatalog")
 localized = []
-for filename in ["Localizable.strings", "AppShortcuts.strings"]:
+for filename in []:
     children = [obj("PBXFileReference", lastKnownFileType="text.plist.strings", name=lang, path=f"LookFar/{lang}.lproj/{filename}", sourceTree="<group>") for lang in ["ko", "en"]]
     localized.append(obj("PBXVariantGroup", name=filename, children=children, sourceTree="<group>"))
 app_product = obj("PBXFileReference", explicitFileType="wrapper.application", path="LookFar.app", sourceTree="BUILT_PRODUCTS_DIR")
@@ -47,23 +47,11 @@ live_proxy = obj("PBXContainerItemProxy", containerPortal=project, proxyType="1"
 live_dep = obj("PBXTargetDependency", target=live, targetProxy=live_proxy)
 embed = obj("PBXCopyFilesBuildPhase", buildActionMask="2147483647", dstPath="", dstSubfolderSpec="13", files=[build(live_product, settings={"ATTRIBUTES": ["RemoveHeadersOnCopy"]})], name="Embed App Extensions", runOnlyForDeploymentPostprocessing="0")
 app = obj("PBXNativeTarget", name="LookFar", productName="LookFar", productType="com.apple.product-type.application", productReference=app_product,
-    buildConfigurationList=configs(dict(target_common, PRODUCT_BUNDLE_IDENTIFIER="com.addvalue.lookfar", INFOPLIST_FILE="LookFar/Info.plist", ASSETCATALOG_COMPILER_APPICON_NAME="AppIcon", LD_RUNPATH_SEARCH_PATHS="$(inherited) @executable_path/Frameworks", ENABLE_PREVIEWS="YES")),
+    buildConfigurationList=configs(dict(target_common, PRODUCT_BUNDLE_IDENTIFIER="com.addvalue.lookfar", INFOPLIST_FILE="LookFar/Info.plist", CODE_SIGN_ENTITLEMENTS="LookFar/LookFar.entitlements", ASSETCATALOG_COMPILER_APPICON_NAME="AppIcon", LD_RUNPATH_SEARCH_PATHS="$(inherited) @executable_path/Frameworks", ENABLE_PREVIEWS="YES")),
     buildPhases=[phase("PBXSourcesBuildPhase", [build(r) for r in apprefs]), phase("PBXFrameworksBuildPhase", []), phase("PBXResourcesBuildPhase", [build(privacy), build(assets)] + [build(r) for r in localized]), embed], buildRules=[], dependencies=[live_dep])
-test_source = ref("LookFarUITests/LookFarUITests.swift", "sourcecode.swift")
-test_product = obj("PBXFileReference", explicitFileType="wrapper.cfbundle", path="LookFarUITests.xctest", sourceTree="BUILT_PRODUCTS_DIR")
-proxy = obj("PBXContainerItemProxy", containerPortal=project, proxyType="1", remoteGlobalIDString=app, remoteInfo="LookFar")
-dependency = obj("PBXTargetDependency", target=app, targetProxy=proxy)
-tests = obj("PBXNativeTarget", name="LookFarUITests", productName="LookFarUITests", productType="com.apple.product-type.bundle.ui-testing", productReference=test_product,
-    buildConfigurationList=configs(dict(target_common, PRODUCT_BUNDLE_IDENTIFIER="com.addvalue.lookfar.uitests", GENERATE_INFOPLIST_FILE="YES", TEST_TARGET_NAME="LookFar")),
-    buildPhases=[phase("PBXSourcesBuildPhase", [build(test_source)]), phase("PBXFrameworksBuildPhase", [])], buildRules=[], dependencies=[dependency])
-unit_source = ref("LookFarTests/ReminderIntentTests.swift", "sourcecode.swift")
-unit_product = obj("PBXFileReference", explicitFileType="wrapper.cfbundle", path="LookFarTests.xctest", sourceTree="BUILT_PRODUCTS_DIR")
-unit = obj("PBXNativeTarget", name="LookFarTests", productName="LookFarTests", productType="com.apple.product-type.bundle.unit-test", productReference=unit_product,
-    buildConfigurationList=configs(dict(target_common, PRODUCT_BUNDLE_IDENTIFIER="com.addvalue.lookfar.tests", GENERATE_INFOPLIST_FILE="YES", TEST_HOST="$(BUILT_PRODUCTS_DIR)/LookFar.app/LookFar", BUNDLE_LOADER="$(TEST_HOST)")),
-    buildPhases=[phase("PBXSourcesBuildPhase", [build(unit_source)]), phase("PBXFrameworksBuildPhase", [])], buildRules=[], dependencies=[dependency])
-products = obj("PBXGroup", name="Products", children=[app_product, live_product, test_product, unit_product], sourceTree="<group>")
-group = obj("PBXGroup", children=apprefs + localized + [privacy, assets, live_source, test_source, unit_source, products], sourceTree="<group>")
-objects[project].update(buildConfigurationList=configs(common), compatibilityVersion="Xcode 14.0", developmentRegion="ko", knownRegions=["ko", "en", "Base"], mainGroup=group, productRefGroup=products, projectDirPath="", projectRoot="", targets=[app, live, tests, unit], attributes={"LastUpgradeCheck": "2630", "TargetAttributes": {tests: {"TestTargetID": app}, unit: {"TestTargetID": app}}})
+products = obj("PBXGroup", name="Products", children=[app_product, live_product], sourceTree="<group>")
+group = obj("PBXGroup", children=apprefs + localized + [privacy, assets, live_source, products], sourceTree="<group>")
+objects[project].update(buildConfigurationList=configs(common), compatibilityVersion="Xcode 14.0", developmentRegion="ko", knownRegions=["ko", "en", "Base"], mainGroup=group, productRefGroup=products, projectDirPath="", projectRoot="", targets=[app, live], attributes={"LastUpgradeCheck": "2630"})
 def serialize(value, level=0):
     if isinstance(value, dict):
         return "{\n" + "".join("\t"*(level+1) + json.dumps(k) + " = " + serialize(v, level+1) + ";\n" for k,v in value.items()) + "\t"*level + "}"
@@ -79,7 +67,7 @@ def reference(identifier, name):
 (schemes / "LookFar.xcscheme").write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
 <Scheme LastUpgradeVersion="2630" version="1.3">
 <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES"><BuildActionEntries><BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">{reference(app,"LookFar")}</BuildActionEntry></BuildActionEntries></BuildAction>
-<TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.IDEFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES"><Testables><TestableReference skipped="NO"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{tests}" BuildableName="LookFarUITests.xctest" BlueprintName="LookFarUITests" ReferencedContainer="container:LookFar.xcodeproj"/></TestableReference><TestableReference skipped="NO"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{unit}" BuildableName="LookFarTests.xctest" BlueprintName="LookFarTests" ReferencedContainer="container:LookFar.xcodeproj"/></TestableReference></Testables></TestAction>
+<TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.IDEFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES"><Testables></Testables></TestAction>
 <LaunchAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.IDEFoundation.Launcher.LLDB" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" allowLocationSimulation="YES"><BuildableProductRunnable runnableDebuggingMode="0">{reference(app,"LookFar")}</BuildableProductRunnable></LaunchAction>
 <ProfileAction buildConfiguration="Release" shouldUseLaunchSchemeArgsEnv="YES" useCustomWorkingDirectory="NO" debugDocumentVersioning="YES"><BuildableProductRunnable runnableDebuggingMode="0">{reference(app,"LookFar")}</BuildableProductRunnable></ProfileAction>
 <AnalyzeAction buildConfiguration="Debug"/><ArchiveAction buildConfiguration="Release" revealArchiveInOrganizer="YES"/>

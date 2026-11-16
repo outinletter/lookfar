@@ -3,70 +3,67 @@
 - Name: LookFar
 - Bundle ID (explicit): com.addvalue.lookfar
 - SKU suggestion: lookfar-ios
-- Version: 1.0, build 3
+- Version: 1.0, build 3 (이미 올린 빌드 번호가 있으면 `scripts/generate_project.py`의 `CURRENT_PROJECT_VERSION`을 올린다)
 - Primary language: Korean
 - Category: Health & Fitness; secondary: Utilities
 - Copyright: 2026 ADDVALUE
-- Support contact: outinaddvalue@gmail.com (matches latest MaydayATC project)
-- Review contact name, phone and account legal information: reuse the owner's existing App Store Connect account values; not copied into source.
-- Support URL / Privacy Policy URL: publish `Website/support.html` and `Website/privacy.html` at an owner-controlled, publicly accessible HTTPS host. Do not enter a local path, mailto URL, or an invented domain. Public hosting is not configured by this project.
+- Support contact: outinaddvalue@gmail.com
+- Support URL / Privacy Policy URL: `Website/support.html`, `Website/privacy.html`을 공개 HTTPS 주소에 올린 뒤 그 주소를 입력한다.
 
 ## ko-KR
 
-Subtitle: 시선에 작은 쉼표를
+Subtitle: 눈을 위한 작은 노란 점
 
-Promotional text: 원하는 시간에 도착하는 작은 알림. 화면에서 잠시 눈을 떼고, 먼 곳을 바라보며 나만의 휴식 습관을 만들어보세요.
+Promotional text: 영상에 빠져 있을 때, 다이내믹 아일랜드의 노란 점이 눈을 쉬게 할 때를 알려 줍니다.
 
 Description:
 
-잠깐, 시선을 멀리.
+오래 보는 눈에게 작은 신호 하나.
 
-LookFar는 화면에 집중한 일상에 작은 눈 휴식을 더하는 앱입니다. 1분부터 180분까지 원하는 시간을 설정하면, 시간이 지난 후 LOOKFAR 알림으로 쉬어갈 순간을 알려드립니다.
+LookFar는 유튜브처럼 화면을 오래 볼 때, 보던 화면을 가리지 않고 다이내믹 아일랜드의 작은 노란 점으로 눈을 쉬게 할 때를 알려 주는 앱입니다.
 
-• 나에게 맞는 간격: 10·20·30·45분 빠른 선택과 1~180분 직접 설정
-• 다른 앱을 사용 중에도: 기기에 예약된 알림과 선택 가능한 알림 소리
-• 선택한 앱을 열 때 자동 시작: Apple 단축어에서 사용자가 자동화를 설정
-• 한눈에 보는 남은 시간: 지원 기기의 잠금 화면과 Dynamic Island 실시간 현황
-• 20초의 작은 쉼: 먼 곳 보기, 부드러운 깜빡임과 편안한 호흡 안내
-• 차곡차곡 쌓이는 습관: 직접 완료한 휴식 기록과 최근 7일 그래프
-• 나만의 기록: 로그인·광고·추적 없이 기기에 보관, 언제든 초기화
+• 멀리 보기: 점이 길게 두 번 켜지면 화면에서 눈을 떼고 먼 곳을 바라보세요.
+• 눈 깜빡임: 점이 짧게 깜빡이면 그 박자에 맞춰 눈을 깜빡여 주세요.
+• 신호 간격: 5·10·20·30분 중에서 선택
+• 두 신호 함께 사용: 멀리 보기 뒤에 눈 깜빡임이 이어집니다.
+• 방해 없는 신호: 소리와 배너 없이 점만 켜집니다.
+• 계정·광고·추적 없음
 
-타이머는 시작 버튼이나 단축어 동작 실행 시점부터 계산하며 실제 스마트폰 사용 시간을 측정하지 않습니다. 화면을 꺼도 계속 계산하고 화면 켜짐·잠금 해제로 초기화되지 않습니다. 앱 실행 자동화는 사용자가 Apple 단축어에서 설정해야 합니다. 알림은 타이머마다 한 번 예약됩니다. Dynamic Island는 지원 기기에서 이용할 수 있고, 표시 여부는 iOS가 결정합니다. 집중 모드·무음 모드·알림 설정에 따라 알림의 표시와 소리가 달라질 수 있습니다.
+신호는 시작 버튼을 누른 시점부터 실제 경과 시간으로 계산하며, 스마트폰 사용 시간이나 눈의 움직임을 측정하지 않습니다. 신호 전송에는 인터넷 연결이 필요합니다. 다이내믹 아일랜드가 없는 기기에서는 잠금 화면의 실시간 현황에 점이 표시됩니다. 한 번 시작한 신호는 최대 8시간 동안 유지됩니다.
 
 LookFar는 일상 속 휴식 습관을 돕는 앱이며 의료 진단이나 치료를 제공하거나 시력 개선을 보장하지 않습니다.
 
-Keywords: 눈휴식,먼곳보기,깜빡임,타이머,알림,휴식,집중,눈,습관,lookfar
+Keywords: 눈휴식,먼곳보기,깜빡임,다이내믹아일랜드,휴식,집중,눈,습관,영상,lookfar
 
 ## en-US
 
-Subtitle: A little pause for your eyes
+Subtitle: A small yellow dot for your eyes
 
-Promotional text: A gentle nudge to look beyond your screen. Choose your interval, take a short break, and make a little room for rest.
+Promotional text: While you are deep in a video, a yellow dot in the Dynamic Island tells you when to rest your eyes.
 
 Description:
 
-A little distance. A little rest.
+A small signal for busy eyes.
 
-LookFar brings small eye breaks into your day. Set a timer from 1 to 180 minutes and receive a LOOKFAR reminder when it is time to look away.
+LookFar reminds you to rest your eyes during long viewing sessions with a small yellow dot in the Dynamic Island, without covering what you are watching.
 
-• Your own rhythm: quick presets and custom intervals.
-• A reminder that travels with you: local notifications, even while using another app.
-• Start when selected apps open: set up your own automation in Apple Shortcuts.
-• Time at a glance: optional Lock Screen and Dynamic Island Live Activities on supported devices.
-• A 20-second pause: gentle prompts to look far away, blink slowly, and relax.
-• Small habits, recorded: completed breaks and a seven-day chart.
-• Private by design: no account, ads, tracking, or developer server. Your history stays on your device.
+• Look far: when the dot glows long twice, look away at something distant.
+• Blink: when the dot flashes, blink along with it.
+• Signal interval: 5, 10, 20 or 30 minutes.
+• Use both: Blink follows Look far.
+• No interruption: no sound and no banner, only the dot.
+• No account, ads or tracking.
 
-Timers measure elapsed time after Start or a Shortcuts action, not actual phone use. They keep running while locked and do not reset on screen wake or unlock. App Open automations require setup by the user in Apple Shortcuts. Each timer schedules one notification. iOS controls Live Activity presentation. Focus, Silent mode, Scheduled Summary, and notification settings may affect alerts.
+Signals are timed from the moment you tap Start and use elapsed time; the app does not measure phone use or eye movement. Signals require an internet connection. On devices without a Dynamic Island the dot appears in the Lock Screen Live Activity. A session lasts up to 8 hours.
 
 LookFar supports everyday break habits. It does not diagnose, treat, or guarantee improved eyesight.
 
-Keywords: eye,break,blink,timer,reminder,focus,rest,habit,lookfar
+Keywords: eye,break,blink,dynamic island,reminder,focus,rest,habit,video,lookfar
 
 ## App Privacy and age rating
 
-App Privacy: Data Not Collected, consistent with the app having no network requests or third-party SDKs. User-selected support email is handled outside the app by the mail provider. No tracking, advertising or ATT prompt. UserDefaults required reason CA92.1 is declared in the bundled manifest.
+App Privacy: Identifiers → Device ID (Live Activity 푸시 토큰). Purpose: App Functionality. Linked to user: No. Tracking: No. 그 외 수집 데이터 없음. 번들 매니페스트(`PrivacyInfo.xcprivacy`)와 일치해야 한다.
 
-Age questionnaire: no user-generated content, chat, ads, purchases, unrestricted browser, gambling, violence, mature material or medical treatment information. Answer the current App Store Connect form according to actual behavior; the store computes the rating.
+Age questionnaire: no user-generated content, chat, ads, purchases, unrestricted browser, gambling, violence, mature material or medical treatment information.
 
-No login, demo account, in-app purchase, or export-compliance encryption documentation is needed for the implemented features. `ITSAppUsesNonExemptEncryption = NO`.
+No login, demo account or in-app purchase. `ITSAppUsesNonExemptEncryption = NO` (HTTPS만 사용).

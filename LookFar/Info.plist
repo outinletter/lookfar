@@ -12,6 +12,7 @@
 <key>CFBundleLocalizations</key><array><string>ko</string><string>en</string></array>
 <key>LSRequiresIPhoneOS</key><true/>
 <key>NSSupportsLiveActivities</key><true/>
+<key>NSSupportsLiveActivitiesFrequentUpdates</key><true/>
 <key>ITSAppUsesNonExemptEncryption</key><false/>
 <key>UIApplicationSceneManifest</key><dict><key>UIApplicationSupportsMultipleScenes</key><false/></dict>
 <key>UILaunchScreen</key><dict/>

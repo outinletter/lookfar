@@ -10,7 +10,7 @@
 ```
 LookFar/            앱 (RootView.swift: UI + BlinkController, Shared/: 앱·위젯 공용)
 LookFarLive/        Live Activity 위젯 확장
-server/             Cloudflare Worker (src/index.js)
+server/             Cloudflare Worker 코드 (src/index.js), 설정은 루트 wrangler.toml
 AppStore/ Website/  스토어 메타데이터, 심사 메모, 처리방침·지원 페이지
 scripts/            프로젝트 생성 스크립트
 ```

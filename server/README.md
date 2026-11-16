@@ -5,7 +5,7 @@
 ## 배포
 
 ```bash
-cd server
+cd /Volumes/Data/Project/LookFar
 npx wrangler login
 npx wrangler secret put APNS_KEY_ID   # Apple Developer > Keys 의 Key ID
 npx wrangler secret put APNS_KEY      # .p8 파일 내용 전체 붙여 넣기

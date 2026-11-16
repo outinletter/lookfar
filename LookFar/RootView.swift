@@ -16,7 +16,7 @@ enum BlinkMode: String, CaseIterable {
 
 enum Server {
     // Deployed Cloudflare Worker (see server/README.md).
-    static let baseURL = URL(string: "https://lookfar.example.workers.dev")!
+    static let baseURL = URL(string: "https://lookfar.outinletter.workers.dev")!
 }
 
 // Signals are sent by the server as Live Activity pushes, so nothing runs in the background.

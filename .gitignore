@@ -6,3 +6,8 @@ xcuserdata/
 *.xcarchive/
 *.ipa
 /AppStore/Screenshots/**/*.png
+
+# Cloudflare wrangler local cache
+.wrangler/
+node_modules/
+.dev.vars

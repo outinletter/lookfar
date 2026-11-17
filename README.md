@@ -1,6 +1,6 @@
 # LookFar
 
-Native SwiftUI iPhone app, iOS 17+. Bundle ID `com.addvalue.lookfar`, widget extension `com.addvalue.lookfar.live`, signing team `A7QB8PT33N`.
+Native SwiftUI iPhone app, iOS 17+. Bundle ID `com.addvalue.looksfar`, widget extension `com.addvalue.looksfar.live`, signing team `A7QB8PT33N`.
 
 A single screen starts a Live Activity whose yellow dot in the Dynamic Island is switched on and off by ActivityKit pushes from a Cloudflare Worker (`server/`). The app uses no background modes.
 

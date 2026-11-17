@@ -28,7 +28,7 @@ def configs(settings):
 
 project = obj("PBXProject")
 common = dict(SWIFT_VERSION="5.0", IPHONEOS_DEPLOYMENT_TARGET="17.0", SDKROOT="iphoneos", CLANG_ENABLE_MODULES="YES", ENABLE_USER_SCRIPT_SANDBOXING="YES", ENABLE_STRICT_OBJC_MSGSEND="YES")
-target_common = dict(PRODUCT_NAME="$(TARGET_NAME)", CODE_SIGN_STYLE="Automatic", DEVELOPMENT_TEAM="A7QB8PT33N", MARKETING_VERSION="1.0", CURRENT_PROJECT_VERSION="3", TARGETED_DEVICE_FAMILY="1", SUPPORTED_PLATFORMS="iphoneos iphonesimulator", SUPPORTS_MACCATALYST="NO", SWIFT_EMIT_LOC_STRINGS="YES")
+target_common = dict(PRODUCT_NAME="$(TARGET_NAME)", CODE_SIGN_STYLE="Automatic", DEVELOPMENT_TEAM="A7QB8PT33N", MARKETING_VERSION="1.0", CURRENT_PROJECT_VERSION="4", TARGETED_DEVICE_FAMILY="1", SUPPORTED_PLATFORMS="iphoneos iphonesimulator", SUPPORTS_MACCATALYST="NO", SWIFT_EMIT_LOC_STRINGS="YES")
 appfiles = ["LookFarApp.swift", "RootView.swift", "Shared/LookFarActivity.swift"]
 apprefs = [ref("LookFar/" + f, "sourcecode.swift") for f in appfiles]
 privacy = ref("LookFar/PrivacyInfo.xcprivacy", "text.xml")
@@ -41,13 +41,13 @@ app_product = obj("PBXFileReference", explicitFileType="wrapper.application", pa
 live_product = obj("PBXFileReference", explicitFileType="wrapper.app-extension", path="LookFarLive.appex", sourceTree="BUILT_PRODUCTS_DIR")
 live_source = ref("LookFarLive/LookFarLive.swift", "sourcecode.swift")
 live = obj("PBXNativeTarget", name="LookFarLive", productName="LookFarLive", productType="com.apple.product-type.app-extension", productReference=live_product,
-    buildConfigurationList=configs(dict(target_common, PRODUCT_BUNDLE_IDENTIFIER="com.addvalue.lookfar.live", INFOPLIST_FILE="LookFarLive/Info.plist", SKIP_INSTALL="YES", APPLICATION_EXTENSION_API_ONLY="YES", LD_RUNPATH_SEARCH_PATHS="$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks")),
+    buildConfigurationList=configs(dict(target_common, PRODUCT_BUNDLE_IDENTIFIER="com.addvalue.looksfar.live", INFOPLIST_FILE="LookFarLive/Info.plist", SKIP_INSTALL="YES", APPLICATION_EXTENSION_API_ONLY="YES", LD_RUNPATH_SEARCH_PATHS="$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks")),
     buildPhases=[phase("PBXSourcesBuildPhase", [build(live_source), build(apprefs[-1])]), phase("PBXResourcesBuildPhase", []), phase("PBXFrameworksBuildPhase", [])], buildRules=[], dependencies=[])
 live_proxy = obj("PBXContainerItemProxy", containerPortal=project, proxyType="1", remoteGlobalIDString=live, remoteInfo="LookFarLive")
 live_dep = obj("PBXTargetDependency", target=live, targetProxy=live_proxy)
 embed = obj("PBXCopyFilesBuildPhase", buildActionMask="2147483647", dstPath="", dstSubfolderSpec="13", files=[build(live_product, settings={"ATTRIBUTES": ["RemoveHeadersOnCopy"]})], name="Embed App Extensions", runOnlyForDeploymentPostprocessing="0")
 app = obj("PBXNativeTarget", name="LookFar", productName="LookFar", productType="com.apple.product-type.application", productReference=app_product,
-    buildConfigurationList=configs(dict(target_common, PRODUCT_BUNDLE_IDENTIFIER="com.addvalue.lookfar", INFOPLIST_FILE="LookFar/Info.plist", CODE_SIGN_ENTITLEMENTS="LookFar/LookFar.entitlements", ASSETCATALOG_COMPILER_APPICON_NAME="AppIcon", LD_RUNPATH_SEARCH_PATHS="$(inherited) @executable_path/Frameworks", ENABLE_PREVIEWS="YES")),
+    buildConfigurationList=configs(dict(target_common, PRODUCT_BUNDLE_IDENTIFIER="com.addvalue.looksfar", INFOPLIST_FILE="LookFar/Info.plist", CODE_SIGN_ENTITLEMENTS="LookFar/LookFar.entitlements", ASSETCATALOG_COMPILER_APPICON_NAME="AppIcon", LD_RUNPATH_SEARCH_PATHS="$(inherited) @executable_path/Frameworks", ENABLE_PREVIEWS="YES")),
     buildPhases=[phase("PBXSourcesBuildPhase", [build(r) for r in apprefs]), phase("PBXFrameworksBuildPhase", []), phase("PBXResourcesBuildPhase", [build(privacy), build(assets)] + [build(r) for r in localized]), embed], buildRules=[], dependencies=[live_dep])
 products = obj("PBXGroup", name="Products", children=[app_product, live_product], sourceTree="<group>")
 group = obj("PBXGroup", children=apprefs + localized + [privacy, assets, live_source, products], sourceTree="<group>")

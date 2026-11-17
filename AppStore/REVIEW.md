@@ -28,7 +28,7 @@ The app measures elapsed time from Start and does not monitor Screen Time or eye
 
 ## Release requirements
 
-- App ID `com.addvalue.lookfar`에 Push Notifications 기능이 켜져 있어야 한다(자동 서명이 처리). 확장 ID: `com.addvalue.lookfar.live`.
+- App ID `com.addvalue.looksfar`에 Push Notifications 기능이 켜져 있어야 한다(자동 서명이 처리). 확장 ID: `com.addvalue.looksfar.live`.
 - `server/README.md`대로 Worker를 배포하고 `LookFar/RootView.swift`의 `Server.baseURL`을 실제 주소로 바꾼다.
 - Release 아카이브는 운영 APNs를 쓴다. TestFlight 빌드로 실제 신호가 오는지 확인한 뒤 제출한다.
 - 처리방침과 지원 페이지를 공개 HTTPS 주소에 올리고 App Store Connect에 입력한다.

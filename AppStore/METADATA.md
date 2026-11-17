@@ -1,7 +1,7 @@
 # App Store Connect metadata
 
 - Name: LookFar
-- Bundle ID (explicit): com.addvalue.lookfar
+- Bundle ID (explicit): com.addvalue.looksfar
 - SKU suggestion: lookfar-ios
 - Version: 1.0, build 3 (이미 올린 빌드 번호가 있으면 `scripts/generate_project.py`의 `CURRENT_PROJECT_VERSION`을 올린다)
 - Primary language: Korean

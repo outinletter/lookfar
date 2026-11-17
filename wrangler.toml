@@ -4,7 +4,7 @@ compatibility_date = "2026-01-01"
 
 [vars]
 TEAM_ID = "A7QB8PT33N"
-BUNDLE_ID = "com.addvalue.lookfar"
+BUNDLE_ID = "com.addvalue.looksfar"
 
 [[durable_objects.bindings]]
 name = "SESSIONS"

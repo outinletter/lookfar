@@ -220,9 +220,10 @@ struct RootView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
-                Circle().fill(Pastel.accent).frame(width: 14, height: 14)
-                Text("LOOKFAR").font(.system(size: 24, weight: .heavy, design: .rounded)).tracking(4)
+                Circle().fill(Pastel.accent).frame(width: 18, height: 18)
+                Text("LOOKFAR").font(.system(size: 34, weight: .heavy, design: .rounded)).tracking(4)
             }
+            .padding(.bottom, 14)
             Text(L("오래 보는 눈에게 작은 신호 하나.", "A small signal for busy eyes."))
                 .font(.system(size: 23, weight: .semibold)).lineLimit(1).minimumScaleFactor(0.7)
             Text(L("유튜브처럼 화면을 오래 볼 때, 다이내믹 아일랜드의 노란 점이 눈을 쉬게 할 때를 알려 줍니다.", "While you watch for a long time, a yellow dot in the Dynamic Island tells you when to rest your eyes."))

@@ -63,7 +63,7 @@ final class BlinkController: ObservableObject {
             return
         }
         do {
-            let state = LookFarActivity.ContentState(lit: false)
+            let state = LookFarActivity.ContentState(lit: true)
             let new = try Activity.request(attributes: LookFarActivity(title: "LookFar"),
                                            content: .init(state: state, staleDate: nil), pushType: .token)
             activity = new
@@ -71,6 +71,11 @@ final class BlinkController: ObservableObject {
             running = true
             working = true
             startedAt = Date()
+            // One short flash confirms the start, then the dot goes dark until the first signal.
+            Task {
+                try? await Task.sleep(for: .seconds(1))
+                await new.update(.init(state: .init(lit: false), staleDate: nil))
+            }
             observe(new, config: ["modes": modes.map(\.rawValue), "minutes": minutes])
         } catch {
             debugLog("Activity.request failed: \(error)")

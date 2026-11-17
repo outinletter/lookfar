@@ -34,7 +34,7 @@ struct LookFarLive: Widget {
             .activitySystemActionForegroundColor(.white)
         } dynamicIsland: { context in
             DynamicIsland {
-                DynamicIslandExpandedRegion(.leading) { YellowDot(lit: true, size: 12).padding(.leading, 6) }
+                DynamicIslandExpandedRegion(.leading) { YellowDot(lit: context.state.lit, size: 12).padding(.leading, 6) }
                 DynamicIslandExpandedRegion(.center) {
                     Text(context.state.lit
                          ? L("지금 눈을 쉬어 주세요", "Time to rest your eyes")

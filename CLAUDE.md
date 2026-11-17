@@ -26,5 +26,6 @@ scripts/            프로젝트 생성 스크립트
 - 스킴 `LookFar`, 타깃 `LookFar`, `LookFarLive`. 테스트 타깃 없음.
 - 기기 빌드: `xcodebuild -project LookFar.xcodeproj -scheme LookFar -destination 'id=00008140-0006089C30E3C01C' -derivedDataPath "$TMPDIR/dd" -allowProvisioningUpdates -quiet build`
 - 설치: `xcrun devicectl device install app --device 03CDFC48-DEE7-52F3-B285-2EC105C649A4 <LookFar.app>`
-- 현재: 푸시 방식 전환 코드 완료, 빌드 통과. Worker 미배포, `Server.baseURL`이 자리표시 주소라 신호 시작이 실패한다.
-- 다음: Node 설치 → Worker 배포 → `Server.baseURL` 교체 → 기기에서 신호 확인 → 스크린샷 재촬영.
+- Worker: `https://lookfar.outinletter.workers.dev`, 배포는 `npx wrangler deploy`(루트) 또는 main 푸시 시 Cloudflare 빌드. Secret `APNS_KEY`, `APNS_KEY_ID` 등록됨.
+- 현재: 푸시 방식 전환·배포 완료. 기기에서 실제 점등은 아직 확인 전.
+- 다음: 기기에서 5분 간격 신호 확인 → TestFlight로 운영 푸시 확인 → 스크린샷 재촬영 → 처리방침·지원 페이지 공개.

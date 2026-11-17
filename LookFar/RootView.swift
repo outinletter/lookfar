@@ -28,6 +28,10 @@ final class BlinkController: ObservableObject {
     @Published var running = false
     @Published var working = false
     @Published var error: String?
+    // When the running session started; drives the in-app countdown to the next signal.
+    @Published var startedAt: Date? {
+        didSet { UserDefaults.standard.set(startedAt?.timeIntervalSince1970 ?? 0, forKey: "startedAt") }
+    }
     private var activity: Activity<LookFarActivity>?
     private var observers: [Task<Void, Never>] = []
     private var sessionID: String {
@@ -40,11 +44,19 @@ final class BlinkController: ObservableObject {
         if let existing = Activity<LookFarActivity>.activities.first, !sessionID.isEmpty {
             activity = existing
             running = true
+            let saved = UserDefaults.standard.double(forKey: "startedAt")
+            startedAt = saved > 0 ? Date(timeIntervalSince1970: saved) : nil
             observe(existing, config: nil)
+        } else {
+            // Leftover activities without a server session would never receive a signal.
+            for orphan in Activity<LookFarActivity>.activities {
+                Task { await orphan.end(nil, dismissalPolicy: .immediate) }
+            }
         }
     }
 
     func start(_ modes: [BlinkMode], minutes: Int) {
+        debugLog("start tapped modes=\(modes.map(\.rawValue)) running=\(running) enabled=\(ActivityAuthorizationInfo().areActivitiesEnabled)")
         guard !modes.isEmpty, !running else { return }
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
             error = L("설정 > LookFar에서 실시간 현황을 켠 뒤 다시 시도해 주세요.", "Turn on Live Activities in Settings > LookFar, then try again.")
@@ -58,13 +70,16 @@ final class BlinkController: ObservableObject {
             sessionID = UUID().uuidString
             running = true
             working = true
+            startedAt = Date()
             observe(new, config: ["modes": modes.map(\.rawValue), "minutes": minutes])
         } catch {
+            debugLog("Activity.request failed: \(error)")
             self.error = L("실시간 현황을 시작하지 못했습니다.", "Could not start the Live Activity.")
         }
     }
 
-    func stop() {
+    func stop(_ reason: String = "user") {
+        debugLog("stop reason=\(reason)")
         observers.forEach { $0.cancel() }
         observers = []
         let ended = activity
@@ -72,6 +87,7 @@ final class BlinkController: ObservableObject {
         activity = nil
         running = false
         working = false
+        startedAt = nil
         sessionID = ""
         Task {
             await ended?.end(nil, dismissalPolicy: .immediate)
@@ -90,31 +106,36 @@ final class BlinkController: ObservableObject {
                     #if DEBUG
                     body["sandbox"] = true
                     #endif
+                    debugLog("push token received, config=\(pending != nil)")
                     do {
                         try await Self.send("POST", id: id, body: body)
+                        debugLog("server accepted")
                         pending = nil
                         self?.working = false
                     } catch {
+                        debugLog("server error: \(error)")
                         if pending != nil { self?.fail() ; return }
+                        // The server already dropped this session (8-hour limit), so end it here too.
+                        if error is SessionGone { self?.stop("session gone") ; return }
                     }
                 }
             },
             Task { [weak self] in
-                for await state in activity.activityStateUpdates where state == .ended || state == .dismissed {
-                    self?.stop()
-                    return
+                for await state in activity.activityStateUpdates {
+                    debugLog("activity state: \(state)")
+                    if state == .ended || state == .dismissed { self?.stop("activity \(state)") ; return }
                 }
             },
             Task { [weak self] in
                 // No push token or no server answer in time.
                 try? await Task.sleep(for: .seconds(20))
-                if !Task.isCancelled, self?.working == true { self?.fail() }
+                if !Task.isCancelled, self?.working == true { debugLog("timeout waiting for token/server") ; self?.fail() }
             }
         ]
     }
 
     private func fail() {
-        stop()
+        stop("fail")
         error = L("신호 서버에 연결하지 못했습니다. 인터넷 연결을 확인한 뒤 다시 시도해 주세요.", "Could not reach the signal server. Check your internet connection and try again.")
     }
 
@@ -127,8 +148,18 @@ final class BlinkController: ObservableObject {
             request.httpBody = try JSONSerialization.data(withJSONObject: body)
         }
         let (_, response) = try await URLSession.shared.data(for: request)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw URLError(.badServerResponse) }
+        let status = (response as? HTTPURLResponse)?.statusCode
+        if status == 404 { throw SessionGone() }
+        guard status == 200 else { throw URLError(.badServerResponse) }
     }
+}
+
+struct SessionGone: Error {}
+
+func debugLog(_ message: String) {
+    #if DEBUG
+    print("[LookFar] \(message)")
+    #endif
 }
 
 enum Pastel {
@@ -150,6 +181,7 @@ struct RootView: View {
     @AppStorage("intervalMinutes") private var minutes = 20
     @AppStorage("useFar") private var useFar = true
     @AppStorage("useBlink") private var useBlink = false
+    @State private var hasIsland = true
 
     var body: some View {
         ScrollView {
@@ -175,19 +207,21 @@ struct RootView: View {
             Button(L("설정 열기", "Open Settings")) { UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!) }
             Button(L("닫기", "Close"), role: .cancel) {}
         } message: { Text(blink.error ?? "") }
+        .onAppear { detectIsland() }
     }
 
     // Devices without a Dynamic Island show the dot in the Lock Screen Live Activity instead.
-    private var hasIsland: Bool {
+    // Read once after the view appears: querying the window while body is evaluated stops SwiftUI updates.
+    private func detectIsland() {
         let window = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.first
-        return (window?.safeAreaInsets.top ?? 59) >= 51
+        hasIsland = (window?.safeAreaInsets.top ?? 59) >= 51
     }
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
-                Circle().fill(Pastel.accent).frame(width: 12, height: 12)
-                Text("LOOKFAR").font(.footnote.weight(.bold)).tracking(3).foregroundStyle(Pastel.muted)
+                Circle().fill(Pastel.accent).frame(width: 14, height: 14)
+                Text("LOOKFAR").font(.system(size: 24, weight: .heavy, design: .rounded)).tracking(4)
             }
             Text(L("오래 보는 눈에게 작은 신호 하나.", "A small signal for busy eyes."))
                 .font(.system(size: 23, weight: .semibold)).lineLimit(1).minimumScaleFactor(0.7)
@@ -204,8 +238,6 @@ struct RootView: View {
     }
     private func binding(_ mode: BlinkMode) -> Binding<Bool> {
         Binding(get: { isOn(mode) }, set: { value in
-            // Keep at least one signal selected.
-            if !value && selected.count == 1 { return }
             if mode == .far { useFar = value } else { useBlink = value }
         })
     }
@@ -246,12 +278,42 @@ struct RootView: View {
                     .font(.headline).frame(maxWidth: .infinity).padding(.vertical, 15)
                     .background(blink.running ? Pastel.rose : Pastel.accent, in: RoundedRectangle(cornerRadius: 20))
                     .foregroundStyle(Pastel.onAccent)
-            }.buttonStyle(.plain).disabled(blink.working)
-            Text(L("\(minutes)분마다 신호를 보냅니다.", "Sending a signal every \(minutes) minutes.")).font(.caption).foregroundStyle(Pastel.muted)
-                .lineLimit(1).minimumScaleFactor(0.8)
-                .opacity(blink.running ? 1 : 0).accessibilityHidden(!blink.running)
+            }.buttonStyle(.plain).disabled(blink.working || (selected.isEmpty && !blink.running))
+                .opacity(selected.isEmpty && !blink.running ? 0.45 : 1)
+            statusLine.lineLimit(1).minimumScaleFactor(0.8).frame(height: 20)
         }
     }
+
+    // Fixed-height line: countdown while running, hint when nothing is selected, otherwise blank.
+    @ViewBuilder private var statusLine: some View {
+        if blink.running, let started = blink.startedAt {
+            TimelineView(.periodic(from: .now, by: 1)) { context in
+                let next = nextSignal(elapsed: context.date.timeIntervalSince(started))
+                Text(L("다음 신호 · \(next.mode.title) · \(clock(next.remaining))", "Next: \(next.mode.title) in \(clock(next.remaining))"))
+                    .font(.subheadline.weight(.semibold)).monospacedDigit().foregroundStyle(Pastel.accent)
+            }
+        } else {
+            Text(L("신호를 하나 이상 켜 주세요.", "Turn on at least one signal."))
+                .font(.caption).foregroundStyle(Pastel.muted)
+                .opacity(selected.isEmpty && !blink.running ? 1 : 0).accessibilityHidden(!selected.isEmpty || blink.running)
+        }
+    }
+
+    // Mirrors the server schedule: first signal one interval after start, the second mode `offset` later.
+    private func nextSignal(elapsed: TimeInterval) -> (mode: BlinkMode, remaining: Int) {
+        let interval = Double(minutes * 60)
+        let offset = Double(BlinkController.offsetSeconds(minutes: minutes))
+        let modes = selected.isEmpty ? [BlinkMode.far] : selected
+        var best: (mode: BlinkMode, wait: Double) = (modes[0], .infinity)
+        for (index, mode) in modes.enumerated() {
+            let phase = index == 0 ? 0 : offset
+            let first = interval + phase
+            let wait = elapsed < first ? first - elapsed : interval - (elapsed - phase).truncatingRemainder(dividingBy: interval)
+            if wait < best.wait { best = (mode, wait) }
+        }
+        return (best.mode, max(0, Int(best.wait.rounded(.up))))
+    }
+    private func clock(_ seconds: Int) -> String { String(format: "%d:%02d", seconds / 60, seconds % 60) }
 
     private var intervalPicker: some View {
         VStack(alignment: .leading, spacing: 10) {
